@@ -1,12 +1,12 @@
-import Head from 'next/head';
-import { useState } from 'react';
-import { useContext } from 'react';
-import styles from '../styles/Home.module.css';
-import { NavBar } from '../components/navbar';
+import Head from "next/head";
+import { useState } from "react";
+import { useContext } from "react";
+import styles from "../styles/Home.module.css";
+import { NavBar } from "../components/navbar";
 
 export default function Home({ data }) {
   // Search bar
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   // Country Detail
   const [showDetails, setShowDetails] = useState(false);
@@ -22,7 +22,7 @@ export default function Home({ data }) {
       <div className={styles.container}>
         {data
           .filter(({ name }) => {
-            if (name.common === '') {
+            if (name.common === "") {
               return data;
             } else if (
               name.common.toLowerCase().includes(query.toLowerCase())
@@ -43,7 +43,7 @@ export default function Home({ data }) {
 
 export async function getStaticProps() {
   // Get external data from the file system, API, DB, etc.
-  const res = await fetch('https://restcountries.com/v3.1/all');
+  const res = await fetch("https://restcountries.com/v3.1/all");
   const data = await res.json();
 
   // The value of the `props` key will be
