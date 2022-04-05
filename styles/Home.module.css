@@ -1,2 +1,7 @@
-.container {
+.light_mode {
+  background-color: #f9f9f9;
+}
+
+.dark_mode {
+  background: #202c36;
 }

@@ -2,7 +2,8 @@ import Head from "next/head";
 import { useState } from "react";
 import { useContext } from "react";
 import styles from "../styles/Home.module.css";
-import { NavBar } from "../components/navbar";
+import { NavBar } from "../components/Navbar";
+import { ThemeContext } from "../components/context/ThemeContext";
 
 export default function Home({ data }) {
   // Search bar
@@ -10,6 +11,9 @@ export default function Home({ data }) {
 
   // Country Detail
   const [showDetails, setShowDetails] = useState(false);
+
+  // Trocar classes para darkmode
+  const { mode } = useContext(ThemeContext);
 
   return (
     <>
@@ -19,7 +23,9 @@ export default function Home({ data }) {
         onChange={(event) => setQuery(event.target.value)}
       />
 
-      <div className={styles.container}>
+      <div
+        className={`${mode === "dark" ? styles.dark_mode : styles.light_mode}`}
+      >
         {data
           .filter(({ name }) => {
             if (name.common === "") {
