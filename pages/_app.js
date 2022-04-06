@@ -1,7 +1,7 @@
 import ThemeContext, {
   ThemeProvider,
 } from "../components/context/ThemeContext";
-import { useState } from "react";
+import { NavBar } from "../components/Navbar";
 
 export default function MyApp({ Component, pageProps }) {
   return (
