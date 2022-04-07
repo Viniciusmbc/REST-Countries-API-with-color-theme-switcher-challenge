@@ -1,14 +1,15 @@
 import Link from "next/link";
 
-const nativeName = (nativeName) => {
-  for (const [key, value] of Object.entries(nativeName)) {
-    for (const [key, value] of Object.entries(value)) {
-      return value;
-    }
-  }
-};
-
 export default function CountryDetail({ country }) {
+  async function borders(cca3) {
+    const paises = await fetch(
+      `https://restcountries.com/v3.1/alpha/${cca3}`
+    ).then((res) => res.json());
+    return Object.values(paises[0].name.common);
+  }
+
+  console.log(country.borders.map((item) => borders(`${item}`)));
+
   return (
     <section>
       <aside>
@@ -24,8 +25,23 @@ export default function CountryDetail({ country }) {
         <ul>
           <li>
             Native Name:
-            {nativeName(country?.name?.nativeName)})
+            {
+              Object.values(country.name.nativeName)[
+                Object.values(country.name.nativeName).length - 1
+              ].common
+            }
           </li>
+          <li>Population: {country.population}</li>
+          <li>Region: {country.region}</li>
+          <li>Sub Region:{country.subregion}</li>
+          <li>Capital:{country.capital}</li>
+          <li>Top Level Domain: {country.tld[0]}</li>
+          <li>Curriencies: {Object.values(country.currencies)[0].name} </li>
+          <li>
+            Languages:
+            {Object.values(country.languages).map((item) => `${item} `)}
+          </li>
+          <li>Border Country: {}</li>
         </ul>
       </div>
     </section>
