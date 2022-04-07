@@ -4,6 +4,7 @@ import { useContext } from "react";
 import styles from "../styles/Home.module.css";
 import { NavBar } from "../components/Navbar";
 import { ThemeContext } from "../components/context/ThemeContext";
+import Link from "next/link";
 
 export default function Home({ data }) {
   // Search bar
@@ -26,10 +27,16 @@ export default function Home({ data }) {
             return data;
           }
         })
-        .map(({ flags, name, population, region, capital }) => (
+        .map(({ flags, name, population, region, capital, cca3 }) => (
           <ul>
             <li>
-              <img src={flags.png} alt={`bandeira do ${name.common}`} />
+              <Link
+                href={`/countries/${encodeURIComponent(
+                  name.common.toLowerCase().replace(/ /g, "-")
+                )}`}
+              >
+                <a>{name.common}</a>
+              </Link>
             </li>
             <li onClick={() => setShowDetails(!showDetails)}>
               <b>{name.common}</b>
@@ -49,11 +56,8 @@ export default function Home({ data }) {
     </section>
   );
 
-  const detailCountries = <section></section>;
-
   return (
     <>
-      <NavBar />
       <input
         placeholder="Enter Post Title"
         onChange={(event) => setQuery(event.target.value)}
@@ -62,7 +66,7 @@ export default function Home({ data }) {
       <div
         className={`${mode === "dark" ? styles.dark_mode : styles.light_mode}`}
       >
-        {showDetails ? detailCountries : countries}
+        {countries}
       </div>
     </>
   );
