@@ -1,14 +1,30 @@
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function CountryDetail({ country }) {
-  async function borders(cca3) {
-    const paises = await fetch(
-      `https://restcountries.com/v3.1/alpha/${cca3}`
-    ).then((res) => res.json());
-    return Object.values(paises[0].name.common);
-  }
+  const [borders, setBorders] = useState(country.borders);
+  const [loading, setLoading] = useState(true);
 
-  console.log(country.borders.map((item) => borders(`${item}`)));
+  useEffect(() => {
+    console.log(borders);
+    if (country.borders.length > 0) {
+      setLoading(true);
+
+      const vizinhos = async () => {
+        const data = await fetch(
+          `https://restcountries.com/v3.1/alpha/${borders[0]}`
+        );
+        const result = await data.json();
+        const countryName = result[0]?.name.common;
+        setLoading(false);
+        return setBorders(countryName);
+      };
+
+      vizinhos();
+    } else {
+      return `não deu certo!`;
+    }
+  }, []);
 
   return (
     <section>
@@ -41,7 +57,7 @@ export default function CountryDetail({ country }) {
             Languages:
             {Object.values(country.languages).map((item) => `${item} `)}
           </li>
-          <li>Border Country: {}</li>
+          <li>Border Country: {loading ? "loading..." : borders}</li>
         </ul>
       </div>
     </section>
@@ -51,7 +67,7 @@ export default function CountryDetail({ country }) {
 export async function getStaticProps({ params }) {
   const countryId = params.countryId.replace(/\-/g, "+");
   const results = await fetch(
-    `https://restcountries.com/v3.1/name/${countryId}`
+    `https://restcountries.com/v3.1/alpha/${countryId}`
   ).then((res) => res.json());
 
   return {

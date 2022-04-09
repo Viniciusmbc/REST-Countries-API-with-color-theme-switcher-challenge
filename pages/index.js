@@ -1,17 +1,30 @@
 import Head from "next/head";
-import { useState } from "react";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import styles from "../styles/Home.module.css";
-import { NavBar } from "../components/Navbar";
 import { ThemeContext } from "../components/context/ThemeContext";
 import Link from "next/link";
+
+const defaultEndpoint = "https://restcountries.com/v3.1/all";
+
+export async function getServerSideProps() {
+  // Get external data from the file system, API, DB, etc.
+  const data = await fetch(defaultEndpoint).then((respostaDoServer) => {
+    if (respostaDoServer.ok) {
+      return respostaDoServer.json();
+    }
+    throw new Error("Deu problema");
+  });
+
+  return {
+    props: {
+      data,
+    },
+  };
+}
 
 export default function Home({ data }) {
   // Search bar
   const [query, setQuery] = useState("");
-
-  // Country Detail
-  const [showDetails, setShowDetails] = useState(false);
 
   // Trocar classes para darkmode
   const { mode } = useContext(ThemeContext);
@@ -32,13 +45,13 @@ export default function Home({ data }) {
             <li>
               <Link
                 href={`/countries/${encodeURIComponent(
-                  name.common.toLowerCase().replace(/ /g, "-")
+                  cca3.toLowerCase().replace(/ /g, "-")
                 )}`}
               >
                 <a>{name.common}</a>
               </Link>
             </li>
-            <li onClick={() => setShowDetails(!showDetails)}>
+            <li>
               <b>{name.common}</b>
             </li>
             <li>
@@ -70,25 +83,4 @@ export default function Home({ data }) {
       </div>
     </>
   );
-}
-
-export async function getStaticProps() {
-  // Get external data from the file system, API, DB, etc.
-  const data = await fetch("https://restcountries.com/v3.1/all").then(
-    (respostaDoServer) => {
-      if (respostaDoServer.ok) {
-        return respostaDoServer.json();
-      }
-      throw new Error("Deu problema");
-    }
-  );
-
-  // The value of the `props` key will be
-  //  passed to the `Home` component
-
-  return {
-    props: {
-      data,
-    },
-  };
 }
