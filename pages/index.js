@@ -4,10 +4,10 @@ import styles from "../styles/Home.module.css";
 import { ThemeContext } from "../components/context/ThemeContext";
 import Link from "next/link";
 
-const defaultEndpoint = "https://restcountries.com/v3.1/all";
+const defaultEndpoint =
+  "https://restcountries.com/v3.1/all?fields=flags,name,population,region,capital,cca3";
 
 export async function getServerSideProps() {
-  // Get external data from the file system, API, DB, etc.
   const data = await fetch(defaultEndpoint).then((respostaDoServer) => {
     if (respostaDoServer.ok) {
       return respostaDoServer.json();
@@ -31,39 +31,41 @@ export default function Home({ data }) {
 
   // all countries
   const countries = (
-    <section>
+    <section
+      className={`${styles.container} ${
+        mode === "dark" ? styles.dark_mode : styles.light_mode
+      }`}
+    >
       {data
         .filter(({ name }) => {
-          if (name.common === "") {
+          if (name === "") {
             return data;
           } else if (name.common.toLowerCase().includes(query.toLowerCase())) {
             return data;
           }
         })
         .map(({ flags, name, population, region, capital, cca3 }) => (
-          <ul>
-            <li>
-              <Link
-                href={`/countries/${encodeURIComponent(
-                  cca3.toLowerCase().replace(/ /g, "-")
-                )}`}
-              >
-                <a>{name.common}</a>
-              </Link>
-            </li>
-            <li>
-              <b>{name.common}</b>
-            </li>
-            <li>
+          <div key={name.common} className={styles.card}>
+            <img
+              className={styles.bandeiras}
+              src={flags.png}
+              alt={`bandeira de ${name}`}
+            />
+            <Link href={`/countries/${encodeURIComponent(cca3).toLowerCase()}`}>
+              <a>
+                <h2>{name.common}</h2>
+              </a>
+            </Link>
+            <p>
               <b>Population:</b> {population}
-            </li>
-            <li>
+            </p>
+            <p>
               <b>Region:</b> {region}
-            </li>
-            <li>
+            </p>
+            <p>
               <b>Capital:</b> {capital}
-            </li>
-          </ul>
+            </p>
+          </div>
         ))
         .splice(0, 8)}
     </section>
@@ -76,11 +78,7 @@ export default function Home({ data }) {
         onChange={(event) => setQuery(event.target.value)}
       />
 
-      <div
-        className={`${mode === "dark" ? styles.dark_mode : styles.light_mode}`}
-      >
-        {countries}
-      </div>
+      <main>{countries}</main>
     </>
   );
 }

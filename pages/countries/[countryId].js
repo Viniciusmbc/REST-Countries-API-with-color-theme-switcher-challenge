@@ -7,22 +7,27 @@ export default function CountryDetail({ country }) {
 
   useEffect(() => {
     console.log(borders);
-    if (country.borders.length > 0) {
+    if (borders != undefined) {
       setLoading(true);
 
-      const vizinhos = async () => {
-        const data = await fetch(
-          `https://restcountries.com/v3.1/alpha/${borders[0]}`
-        );
-        const result = await data.json();
-        const countryName = result[0]?.name.common;
-        setLoading(false);
-        return setBorders(countryName);
-      };
+      async function promises() {
+        const vizinhos = borders.map(async (border) => {
+          const data = await fetch(
+            `https://restcountries.com/v3.1/alpha?codes=${border}`
+          );
+          const result = await data.json();
+          const countryName = result.map(({ name }) => `${name.common} `);
+          setLoading(false);
 
-      vizinhos();
-    } else {
-      return `não deu certo!`;
+          return countryName;
+        });
+
+        const resolved = await Promise.all(vizinhos);
+        setBorders(resolved);
+        setLoading(false);
+      }
+
+      promises();
     }
   }, []);
 
@@ -55,7 +60,7 @@ export default function CountryDetail({ country }) {
           <li>Curriencies: {Object.values(country.currencies)[0].name} </li>
           <li>
             Languages:
-            {Object.values(country.languages).map((item) => `${item} `)}
+            {Object.values(country.languages).join(", ")}
           </li>
           <li>Border Country: {loading ? "loading..." : borders}</li>
         </ul>
@@ -65,7 +70,7 @@ export default function CountryDetail({ country }) {
 }
 
 export async function getStaticProps({ params }) {
-  const countryId = params.countryId.replace(/\-/g, "+");
+  const countryId = params.countryId.toLowerCase();
   const results = await fetch(
     `https://restcountries.com/v3.1/alpha/${countryId}`
   ).then((res) => res.json());
@@ -82,8 +87,8 @@ export async function getStaticPaths() {
     (res) => res.json()
   );
   return {
-    paths: countries.map(({ name }) => {
-      const countryId = name.common.toLowerCase().replace(/ /g, "-");
+    paths: countries.map(({ cca3 }) => {
+      const countryId = cca3.toLowerCase();
       return {
         params: {
           countryId,
