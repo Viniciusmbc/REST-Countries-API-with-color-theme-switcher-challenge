@@ -7,7 +7,7 @@ export function NavBar() {
   const { changeColor, color } = useContext(ThemeContext);
 
   return (
-    <nav>
+    <nav className={styles.navbar}>
       <h2>Where in the world? </h2>
       <ThemeSelector />
     </nav>

@@ -31,11 +31,7 @@ export default function Home({ data }) {
 
   // all countries
   const countries = (
-    <section
-      className={`${styles.container} ${
-        mode === "dark" ? styles.dark_mode : styles.light_mode
-      }`}
-    >
+    <section className={styles.cards}>
       {data
         .filter(({ name }) => {
           if (name === "") {
@@ -73,12 +69,20 @@ export default function Home({ data }) {
 
   return (
     <>
-      <input
-        placeholder="Enter Post Title"
-        onChange={(event) => setQuery(event.target.value)}
-      />
-
-      <main>{countries}</main>
+      <main
+        className={`${styles.container} ${
+          mode === "dark" ? styles.dark_mode : styles.light_mode
+        }`}
+      >
+        <div className={styles.search_country}>
+          <input
+            placeholder="Search for a country..."
+            onChange={(event) => setQuery(event.target.value)}
+            className={styles.search_country_input}
+          />
+        </div>
+        {countries}
+      </main>
     </>
   );
 }
