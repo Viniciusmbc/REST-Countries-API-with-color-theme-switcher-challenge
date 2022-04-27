@@ -4,6 +4,8 @@ import styles from "../styles/Home.module.css";
 import { ThemeContext } from "../components/context/ThemeContext";
 import Link from "next/link";
 
+import { IoSearchSharp } from "react-icons/io";
+
 const defaultEndpoint =
   "https://restcountries.com/v3.1/all?fields=flags,name,population,region,capital,cca3";
 
@@ -25,13 +27,14 @@ export async function getServerSideProps() {
 export default function Home({ data }) {
   // Search bar
   const [query, setQuery] = useState("");
+  const [sim, setSim] = useState(false);
 
   // Trocar classes para darkmode
   const { mode } = useContext(ThemeContext);
 
   // all countries
   const countries = (
-    <section className={styles.cards}>
+    <section className={styles.card_grid}>
       {data
         .filter(({ name }) => {
           if (name === "") {
@@ -41,26 +44,30 @@ export default function Home({ data }) {
           }
         })
         .map(({ flags, name, population, region, capital, cca3 }) => (
-          <div key={name.common} className={styles.card}>
+          <div key={name.common} className={styles.cards}>
             <img
-              className={styles.bandeiras}
+              className={styles.card_flags}
               src={flags.png}
               alt={`bandeira de ${name}`}
             />
-            <Link href={`/countries/${encodeURIComponent(cca3).toLowerCase()}`}>
-              <a>
-                <h2>{name.common}</h2>
-              </a>
-            </Link>
-            <p>
-              <b>Population:</b> {population}
-            </p>
-            <p>
-              <b>Region:</b> {region}
-            </p>
-            <p>
-              <b>Capital:</b> {capital}
-            </p>
+            <div className={styles.card_info}>
+              <Link
+                href={`/countries/${encodeURIComponent(cca3).toLowerCase()}`}
+              >
+                <a>
+                  <h2>{name.common}</h2>
+                </a>
+              </Link>
+              <p>
+                <b>Population:</b> {population}
+              </p>
+              <p>
+                <b>Region:</b> {region}
+              </p>
+              <p>
+                <b>Capital:</b> {capital}
+              </p>
+            </div>
           </div>
         ))
         .splice(0, 8)}
@@ -68,21 +75,21 @@ export default function Home({ data }) {
   );
 
   return (
-    <>
-      <main
-        className={`${styles.container} ${
-          mode === "dark" ? styles.dark_mode : styles.light_mode
-        }`}
-      >
-        <div className={styles.search_country}>
+    <main
+      className={`${styles.main_layout} ${
+        mode === "dark" ? styles.dark_mode : styles.light_mode
+      }`}
+    >
+      <section className={styles.container}>
+        <div className={styles.inputs_search_filter}>
           <input
             placeholder="Search for a country..."
             onChange={(event) => setQuery(event.target.value)}
-            className={styles.search_country_input}
+            className={styles.input_search_input}
           />
         </div>
         {countries}
-      </main>
-    </>
+      </section>
+    </main>
   );
 }

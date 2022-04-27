@@ -1,56 +1,102 @@
-.container {
+.main_layout {
+  width: 100%;
+  height: calc(100vh - 84.5px) !important;
   background-color: hsl(0, 0%, 98%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  overflow: auto;
 }
 
-.container.dark_mode {
-  background: #202c36;
+.main_layout.dark_mode {
+  background: hsl(207, 26%, 17%);
+}
+
+.container {
+  max-width: 1444px;
+  margin: 0 auto;
+  padding: 0 5%;
 }
 
 .navbar {
-  width: 1444px;
+  width: 100%;
+  background-color: #949408;
+  border-bottom: solid 6px #f8f8f845;
+}
+
+.navbar_itens {
   display: flex;
+  max-width: 1444px;
+  padding: 0.2% 5%;
+  margin: 0 auto;
 }
 
-.navbar div {
+.theme_selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
 }
 
-.search_country {
-  width: 1444px;
-  margin: 1rem auto;
+.theme_selector svg {
+  width: 35px;
+  height: 35px;
 }
 
-.search_country_input {
-  width: 25rem;
-  height: 3rem;
-  margin-top: 2rem;
-  background-color: #ffffff;
-  box-shadow: 5px 5px 10px #888888;
+.inputs_search_filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 1.5rem 0;
+  margin-bottom: 1rem;
+}
+
+.input_search {
+  border-radius: 0.25rem;
+  box-shadow: 2px 2px 2px 2px rgb(213, 211, 211);
+  display: flex;
+  align-items: center;
+}
+
+.card_grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 5%;
+  row-gap: 9%;
+}
+
+@media screen and (max-width: 444px) {
+  .card_grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .cards {
-  width: 1444px;
-  display: grid;
-  place-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  grid-template-rows: 1fr 1fr;
-  grid-auto-flow: column;
+  display: block;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
 }
 
-.card {
-  width: 16rem;
-  height: 19rem;
-  margin: 30px 0;
-  border-radius: 20px;
-  background-color: #ffffff;
-  box-shadow: 5px 5px 10px #888888;
+@media screen and (max-width: 444px) {
+  .cards {
+    margin: 0 1rem;
+  }
 }
 
-.bandeiras {
-  width: 16rem;
-  height: 150px;
-  border-radius: 20px 20px 0 0;
+.card_flags {
+  width: 100%;
+  height: 10rem;
+  border-radius: 10px 10px 0 0;
+}
+
+.card_info {
+  font-size: 14px;
+  margin: 2rem 1rem;
+}
+
+.card_body a {
+  text-decoration: none;
+  color: #000;
+}
+
+.card_body p {
+  margin-top: 1rem;
 }

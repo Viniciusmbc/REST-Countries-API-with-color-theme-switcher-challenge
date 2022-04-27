@@ -1,5 +1,7 @@
 import { useContext, useReducer, createContext } from "react";
 import { ThemeContext } from "../components/context/ThemeContext";
+import { IoMdMoon } from "react-icons/io";
+import styles from "../styles/Home.module.css";
 
 export default function ThemeSelector() {
   const { changeMode, mode } = useContext(ThemeContext);
@@ -11,8 +13,9 @@ export default function ThemeSelector() {
   console.log(mode);
 
   return (
-    <div onClick={toggleMode}>
-      <p>MUDAR COR</p>
+    <div className={styles.theme_selector} onClick={toggleMode}>
+      <IoMdMoon />
+      <p>Dark Mode</p>
     </div>
   );
 }
