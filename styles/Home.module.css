@@ -1,6 +1,6 @@
 .main_layout {
   width: 100%;
-  height: calc(100vh - 84.5px) !important;
+  height: calc(100vh - 104px) !important;
   background-color: hsl(0, 0%, 98%);
   overflow: auto;
 }
@@ -17,14 +17,19 @@
 
 .navbar {
   width: 100%;
-  background-color: #949408;
-  border-bottom: solid 6px #f8f8f845;
+  background-color: hsl(0, 0%, 100%);
+  border-bottom: solid 3px #ecebeb;
+}
+
+.navbar.dark_mode {
+  background-color: hsl(209, 23%, 22%);
+  color: aliceblue;
 }
 
 .navbar_itens {
   display: flex;
   max-width: 1444px;
-  padding: 0.2% 5%;
+  padding: 1rem 5%;
   margin: 0 auto;
 }
 
@@ -40,26 +45,34 @@
   height: 35px;
 }
 
-.inputs_search_filter {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  padding: 1.5rem 0;
-  margin-bottom: 1rem;
+.placeholder {
+  font-size: 18px;
+  border: 0;
+  height: 2.5rem;
+}
+
+.search_icon {
+  background-color: white;
+  height: 2rem;
+  width: 100%;
+  margin: 0 auto;
+  overflow: visible;
 }
 
 .input_search {
+  display: flex;
+  margin: 2rem 0;
+  width: 25rem;
   border-radius: 0.25rem;
   box-shadow: 2px 2px 2px 2px rgb(213, 211, 211);
-  display: flex;
   align-items: center;
 }
 
 .card_grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 5%;
-  row-gap: 9%;
+  column-gap: 4rem;
+  row-gap: 4rem;
 }
 
 @media screen and (max-width: 444px) {
@@ -70,14 +83,18 @@
 
 .cards {
   display: block;
-  background-color: #fff;
+  background-color: hsl(0, 0%, 100%);
   border-radius: 10px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
 }
 
+.cards.dark_mode {
+  background-color: hsl(209, 23%, 22%);
+}
+
 @media screen and (max-width: 444px) {
   .cards {
-    margin: 0 1rem;
+    margin: 0 3rem;
   }
 }
 
@@ -88,15 +105,19 @@
 }
 
 .card_info {
-  font-size: 14px;
-  margin: 2rem 1rem;
+  margin: 1rem;
 }
 
-.card_body a {
+.card_info a {
+  color: hsl(200, 15%, 8%);
   text-decoration: none;
-  color: #000;
 }
 
-.card_body p {
-  margin-top: 1rem;
+.card_info.dark_mode {
+  color: aliceblue;
+}
+
+.card_info.dark_mode a {
+  color: aliceblue;
+  text-decoration: none;
 }

@@ -3,8 +3,7 @@ import { useState, useContext } from "react";
 import styles from "../styles/Home.module.css";
 import { ThemeContext } from "../components/context/ThemeContext";
 import Link from "next/link";
-
-import { IoSearchSharp } from "react-icons/io";
+import { IoMdSearch } from "react-icons/io";
 
 const defaultEndpoint =
   "https://restcountries.com/v3.1/all?fields=flags,name,population,region,capital,cca3";
@@ -44,13 +43,22 @@ export default function Home({ data }) {
           }
         })
         .map(({ flags, name, population, region, capital, cca3 }) => (
-          <div key={name.common} className={styles.cards}>
+          <div
+            key={name.common}
+            className={`${styles.cards} ${
+              mode === "dark" ? styles.dark_mode : styles.light_mode
+            }`}
+          >
             <img
               className={styles.card_flags}
               src={flags.png}
               alt={`bandeira de ${name}`}
             />
-            <div className={styles.card_info}>
+            <div
+              className={`${styles.card_info} ${
+                mode === "dark" ? styles.dark_mode : styles.light_mode
+              }`}
+            >
               <Link
                 href={`/countries/${encodeURIComponent(cca3).toLowerCase()}`}
               >
@@ -81,12 +89,15 @@ export default function Home({ data }) {
       }`}
     >
       <section className={styles.container}>
-        <div className={styles.inputs_search_filter}>
-          <input
-            placeholder="Search for a country..."
-            onChange={(event) => setQuery(event.target.value)}
-            className={styles.input_search_input}
-          />
+        <div className={styles.inputs_search_filters}>
+          <div className={styles.input_search}>
+            <IoMdSearch className={styles.search_icon} />
+            <input
+              placeholder="Search for a country..."
+              onChange={(event) => setQuery(event.target.value)}
+              className={styles.placeholder}
+            />
+          </div>
         </div>
         {countries}
       </section>
