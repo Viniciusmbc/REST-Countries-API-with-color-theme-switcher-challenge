@@ -1,35 +1,8 @@
 import Link from "next/link";
-import { useState, useEffect } from "react";
 
-export default function CountryDetail({ country }) {
-  const [borders, setBorders] = useState(country.borders);
-  const [loading, setLoading] = useState(true);
+export default function CountryDetail({ country, borders }) {
 
-  useEffect(() => {
-    console.log(borders);
-    if (borders != undefined) {
-      setLoading(true);
-
-      async function promises() {
-        const vizinhos = borders.map(async (border) => {
-          const data = await fetch(
-            `https://restcountries.com/v3.1/alpha?codes=${border}`
-          );
-          const result = await data.json();
-          const countryName = result.map(({ name }) => `${name.common} `);
-          setLoading(false);
-
-          return countryName;
-        });
-
-        const resolved = await Promise.all(vizinhos);
-        setBorders(resolved);
-        setLoading(false);
-      }
-
-      promises();
-    }
-  }, []);
+  console.log(country.borders.length );
 
   return (
     <section>
@@ -62,8 +35,11 @@ export default function CountryDetail({ country }) {
             Languages:
             {Object.values(country.languages).join(", ")}
           </li>
-          <li>Border Country: {loading ? "loading..." : borders}</li>
+          <li>Border Country: { country.borders.length > 0 ? borders?.map ( ({name, cca3}) => <ul>
+            <li key={cca3}>{name.common}</li>
+            </ul> ) : null}</li>
         </ul>
+
       </div>
     </section>
   );
@@ -72,12 +48,15 @@ export default function CountryDetail({ country }) {
 export async function getStaticProps({ params }) {
   const countryId = params.countryId.toLowerCase();
   const results = await fetch(
-    `https://restcountries.com/v3.1/alpha/${countryId}`
+    `https://restcountries.com/v3.1/alpha/${countryId}?fields=name,flags,population,region,subregion,capital,languages,tld,currencies,borders`
   ).then((res) => res.json());
+
+  const results1 =  results.borders.length > 0 ? (await fetch( `https://restcountries.com/v3.1/alpha?codes=${results.borders}`).then((res) => res.json())) : null;
 
   return {
     props: {
-      country: results[0],
+      country: results,
+      borders: results1,
     },
   };
 }

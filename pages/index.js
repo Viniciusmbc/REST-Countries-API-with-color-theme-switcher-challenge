@@ -49,7 +49,7 @@ export default function Home({ data }) {
 
   // all countries
   const countries = (
-    <section className={styles.card_grid}>
+    <>
       {data
         .filter(({ name }) => {
           if (name === "") {
@@ -95,7 +95,7 @@ export default function Home({ data }) {
           </div>
         ))
         .splice(0, 8)}
-    </section>
+    </>
   );
 
   return (
@@ -117,10 +117,16 @@ export default function Home({ data }) {
           {filterByRegion}
         </div>
 
+        <section className={styles.card_grid}>
         {regionSelected
           ? data
-              .filter(({ region }) => region === regionSelected)
-              .map(({ flags, name, population, region, capital, cca3 }) => (
+              .filter(({ region }) => region === regionSelected) .filter(({ name }) => {
+                if (name === "") {
+                  return data;
+                } else if (name.common.toLowerCase().includes(query.toLowerCase())) {
+                  return data;
+                }
+              }).map(({ flags, name, population, region, capital, cca3 }) => (
                 <div
                   key={name.common}
                   className={`${styles.cards} ${
@@ -159,6 +165,7 @@ export default function Home({ data }) {
                 </div>
               ))
           : countries}
+          </section>
       </section>
     </main>
   );
