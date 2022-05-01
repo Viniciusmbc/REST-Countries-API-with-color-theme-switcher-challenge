@@ -1,6 +1,6 @@
 .main_layout {
   width: 100%;
-  height: calc(100vh - 7vh) !important;
+  height: calc(100vh - 7.7vh) !important;
   background-color: hsl(0, 0%, 98%);
   overflow: auto;
 }
@@ -42,7 +42,7 @@
 }
 
 .nosubmit {
-  margin: 2rem 0;
+  margin: 3rem 0;
   border: none;
   padding: 0;
 }
@@ -51,7 +51,7 @@
   width: 300px;
   height: 40px;
   border-radius: 0.25rem;
-  box-shadow: 2px 2px 8px 1px;
+  box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.2);
   display: block;
   padding: 9px 4px 9px 40px;
   background: transparent
@@ -60,22 +60,24 @@
 }
 
 .filter_by_region {
+  border: none;
   margin-left: auto;
 }
 
 .filter_by_region select {
-  display: block;
-  width: 160px;
+  font-size: 1rem;
+  background-color: hsl(0, 0%, 98%);
+  border: none;
   height: 40px;
   border-radius: 0.25rem;
-  box-shadow: 2px 2px 8px 1px;
+  box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.2);
   padding: 9px 0px 9px 10px;
 }
 
 .card_grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 3rem 1.75rem;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 50px 80px;
 }
 
 @media screen and (max-width: 444px) {
@@ -91,10 +93,6 @@
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
 }
 
-.cards.dark_mode {
-  background-color: hsl(209, 23%, 22%);
-}
-
 @media screen and (max-width: 444px) {
   .cards {
     margin: 0 3rem;
@@ -103,7 +101,7 @@
 
 .card_flags {
   width: 100%;
-  height: 100px;
+  height: 130px;
   border-radius: 10px 10px 0 0;
 }
 
@@ -127,6 +125,20 @@
   border-bottom: solid 3px hsl(208, 31%, 41%);
 }
 
+.nosubmit.dark_mode {
+  background-color: hsl(209, 23%, 22%);
+  color: aliceblue;
+}
+
+.filter_by_region.dark_mode select {
+  background-color: hsl(209, 23%, 22%);
+  color: aliceblue;
+}
+
+.cards.dark_mode {
+  background-color: hsl(209, 23%, 22%);
+}
+
 .card_info.dark_mode {
   color: aliceblue;
 }
@@ -135,4 +147,3 @@
   color: aliceblue;
   text-decoration: none;
 }
-

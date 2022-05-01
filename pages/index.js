@@ -32,7 +32,11 @@ export default function Home({ data }) {
   const [regionSelected, setRegionSelected] = useState("");
 
   const filterByRegion = (
-    <form className={styles.filter_by_region}>
+    <form
+      className={`${styles.filter_by_region} ${
+        mode === "dark" ? styles.dark_mode : styles.light_mode
+      }`}
+    >
       <label className={styles.label} for="first">
         <select onChange={(event) => setRegionSelected(event.target.value)}>
           <option value="" disabled selected>
@@ -106,7 +110,11 @@ export default function Home({ data }) {
     >
       <section className={styles.container}>
         <div className={styles.filters}>
-          <form className={styles.nosubmit}>
+          <form
+            className={`${styles.nosubmit} ${
+              mode === "dark" ? styles.dark_mode : styles.light_mode
+            } `}
+          >
             <input
               type="search"
               placeholder="Search for a country..."
@@ -118,54 +126,58 @@ export default function Home({ data }) {
         </div>
 
         <section className={styles.card_grid}>
-        {regionSelected
-          ? data
-              .filter(({ region }) => region === regionSelected) .filter(({ name }) => {
-                if (name === "") {
-                  return data;
-                } else if (name.common.toLowerCase().includes(query.toLowerCase())) {
-                  return data;
-                }
-              }).map(({ flags, name, population, region, capital, cca3 }) => (
-                <div
-                  key={name.common}
-                  className={`${styles.cards} ${
-                    mode === "dark" ? styles.dark_mode : styles.light_mode
-                  }`}
-                >
-                  <img
-                    className={styles.card_flags}
-                    src={flags.png}
-                    alt={`bandeira de ${name}`}
-                  />
+          {regionSelected
+            ? data
+                .filter(({ region }) => region === regionSelected)
+                .filter(({ name }) => {
+                  if (name === "") {
+                    return data;
+                  } else if (
+                    name.common.toLowerCase().includes(query.toLowerCase())
+                  ) {
+                    return data;
+                  }
+                })
+                .map(({ flags, name, population, region, capital, cca3 }) => (
                   <div
-                    className={`${styles.card_info} ${
+                    key={name.common}
+                    className={`${styles.cards} ${
                       mode === "dark" ? styles.dark_mode : styles.light_mode
                     }`}
                   >
-                    <Link
-                      href={`/countries/${encodeURIComponent(
-                        cca3
-                      ).toLowerCase()}`}
+                    <img
+                      className={styles.card_flags}
+                      src={flags.png}
+                      alt={`bandeira de ${name}`}
+                    />
+                    <div
+                      className={`${styles.card_info} ${
+                        mode === "dark" ? styles.dark_mode : styles.light_mode
+                      }`}
                     >
-                      <a>
-                        <h2>{name.common}</h2>
-                      </a>
-                    </Link>
-                    <p>
-                      <b>Population:</b> {population}
-                    </p>
-                    <p>
-                      <b>Region:</b> {region}
-                    </p>
-                    <p>
-                      <b>Capital:</b> {capital}
-                    </p>
+                      <Link
+                        href={`/countries/${encodeURIComponent(
+                          cca3
+                        ).toLowerCase()}`}
+                      >
+                        <a>
+                          <h2>{name.common}</h2>
+                        </a>
+                      </Link>
+                      <p>
+                        <b>Population:</b> {population}
+                      </p>
+                      <p>
+                        <b>Region:</b> {region}
+                      </p>
+                      <p>
+                        <b>Capital:</b> {capital}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))
-          : countries}
-          </section>
+                ))
+            : countries}
+        </section>
       </section>
     </main>
   );
