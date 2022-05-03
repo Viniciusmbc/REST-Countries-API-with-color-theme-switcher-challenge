@@ -27,71 +27,71 @@ export default function CountryDetail({ country, borders }) {
             src={country.flags.svg}
             alt={`bandeira de ${country.name.common}`}
           />
-          
-            <article className={styles.country_details_card_text}>
-              <div className={styles.country_details_card_container}>
-                    <h1 className={styles.country_details_card_text_title}>
-                      {country.name.common}
-                    </h1>
-              <div className={styles.country_details_card_text}>
-                    <div>
-                      <ul>
-                        <li>
-                          Native Name:{" "}
-                          {
-                            Object.values(country.name.nativeName)[
-                              Object.values(country.name.nativeName).length - 1
-                            ].common
-                          }
-                        </li>
-                        <li>Population: {country.population}</li>
-                        <li>Region: {country.region}</li>
-                        <li>Sub Region: {country.subregion}</li>
-                        <li>Capital: {country.capital}</li>
-                      </ul>
-                    </div>
 
-                   <div>
-                      <ul>
-                        <li>
-                          <b>Top Level Domain: </b>
-                          {country.tld[0]}
-                        </li>
-                        <li>
-                          <b>Curriencies: </b>
-                          {Object.values(country.currencies)[0].name}{" "}
-                        </li>
-                        <li>
-                          <b>Languages: </b>
-                          {Object.values(country.languages).join(", ")}{" "}
-                        </li>
-                      </ul>
-                    </div>
+          <article className={styles.country_details_card_text}>
+            <div className={styles.country_details_card_container}>
+              <h1 className={styles.country_details_card_text_title}>
+                {country.name.common}
+              </h1>
+              <div className={styles.country_details_card_col1}>
+                <div>
+                  <ul>
+                    <li>
+                      Native Name:{" "}
+                      {
+                        Object.values(country.name.nativeName)[
+                          Object.values(country.name.nativeName).length - 1
+                        ].common
+                      }
+                    </li>
+                    <li>Population: {country.population}</li>
+                    <li>Region: {country.region}</li>
+                    <li>Sub Region: {country.subregion}</li>
+                    <li>Capital: {country.capital}</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <ul>
+                    <li>
+                      <b>Top Level Domain: </b>
+                      {country.tld[0]}
+                    </li>
+                    <li>
+                      <b>Curriencies: </b>
+                      {Object.values(country.currencies)[0].name}{" "}
+                    </li>
+                    <li>
+                      <b>Languages: </b>
+                      {Object.values(country.languages).join(", ")}{" "}
+                    </li>
+                  </ul>
                 </div>
               </div>
-                   
-            
+            </div>
 
-              <div className={styles.borders_countries}>
-                {country.borders.length > 0 && (
-                  <>
-                    <p>
-                      {" "}
-                      <b>Borders Countries:</b>{" "}
-                    </p>
-                   
-                      {borders.map(({ name }) => (
-                        <p
-                          key={country.cca3}
-                          className={styles.border_countries_name}
-                        >
-                          {name.common}{" "}
-                        </p>
-                      ))}
-                  </>
-                )}
-              </div>
-            </article>
+            <div className={styles.borders_countries}>
+              {country.borders.length > 0 && (
+                <>
+                  <p>
+                    {" "}
+                    <b>Borders Countries:</b>{" "}
+                  </p>
+
+                  <div>
+                    {borders.map(({ name }) => (
+                      <p
+                        key={country.cca3}
+                        className={styles.border_countries_name}
+                      >
+                        {name.common}{" "}
+                      </p>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </article>
         </div>
       </article>
     </section>
